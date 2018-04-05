@@ -1,5 +1,11 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint -c .eslintrc — ext .js src",
+    "watch:lint": "node node_modules/eslint-watch/bin/esw -w",
+    "exp:start": "exp start",
+    "start": "concurrently --kill-others --raw \"npm run watch:lint\" \"npm run exp:start\""
+  },
   "dependencies": {
     "axios": "0.18.0",
     "babel-eslint": "8.2.2",

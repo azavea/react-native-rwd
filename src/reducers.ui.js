@@ -31,12 +31,12 @@ export default function ui(state = initialState, { type, payload }) {
         case SHOW_ANALYSIS_VIEW:
             return {
                 ...state,
-                showAnalysisView: true,
+                analysisViewVisible: true,
             };
         case HIDE_ANALYSIS_VIEW:
             return {
                 ...state,
-                showAnalysisView: false,
+                analysisViewVisible: false,
             };
         default:
             return state;

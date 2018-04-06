@@ -17,7 +17,7 @@ import {
 
 import {
     initialMapRegion,
-    polygonZoomPadding,
+    polygonZoomPadding as edgePadding,
     watershedFillColor,
 } from '../constants';
 
@@ -53,13 +53,32 @@ class Map extends Component {
         this.handleLongPress = this.handleLongPress.bind(this);
     }
 
+    componentDidMount() {
+        const {
+            mapRef,
+            props: {
+                watershed,
+            },
+        } = this;
+
+        if (watershed && mapRef) {
+            mapRef.fitToCoordinates(
+                mapPolygonToLatLngs(watershed.geometry.coordinates),
+                {
+                    animated: false,
+                    edgePadding,
+                },
+            );
+        }
+    }
+
     componentDidUpdate({ watershed }) {
         if (this.props.watershed && !watershed) {
             this.mapRef.fitToCoordinates(
                 mapPolygonToLatLngs(this.props.watershed.geometry.coordinates),
                 {
                     animated: true,
-                    edgePadding: polygonZoomPadding,
+                    edgePadding,
                 },
             );
         }

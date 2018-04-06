@@ -4,6 +4,8 @@
 
 A research project to build a mapping application with React Native.
 
+<img src="rwdnative.gif" alt="demo gif" height="500" />
+
 ## Requirements
 
 - Node 8.x or greater

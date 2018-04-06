@@ -2,15 +2,8 @@ import {
     combineReducers,
 } from 'redux';
 
-const initialAppState = {};
-
-function app(state = initialAppState, { type }) {
-    switch (type) {
-        default:
-            return state;
-    }
-}
+import data from './reducers.data';
 
 export default combineReducers({
-    app,
+    data,
 });

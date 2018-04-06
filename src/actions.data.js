@@ -38,6 +38,8 @@ export const START_FETCH_STREAMS = 'START_FETCH_STREAMS';
 export const FAIL_FETCH_STREAMS = 'FAIL_FETCH_STREAMS';
 export const COMPLETE_FETCH_STREAMS = 'COMPLETE_FETCH_STREAMS';
 
+export const CLEAR_SHAPE = 'CLEAR_SHAPE';
+
 const headers = {
     Authorization: rwdAPIkey,
 };
@@ -386,5 +388,11 @@ export function fetchStreams() {
                 .then(({ data: { job } }) =>
                     dispatch(pollJobUrl(job, jobRequestTypes.streams)))
                 .catch(() => dispatch(failFetchStreams()));
+    };
+}
+
+export function clearShape() {
+    return {
+        type: CLEAR_SHAPE,
     };
 }

@@ -12,8 +12,17 @@ A research project to build a mapping application with React Native.
 
 ## Setup
 
+To build a development environment for the project, run:
+
 ```sh
 rake
+```
+
+You'll also need to set the following environment variables:
+
+```sh
+export RWD_API_KEY=foo
+export RWD_API_URL=bar
 ```
 
 ## Development Server

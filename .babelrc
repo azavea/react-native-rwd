@@ -3,6 +3,15 @@
   "env": {
     "development": {
         "plugins": [
+            [
+                "transform-inline-environment-variables",
+                {
+                    "include": [
+                        "RWD_API_KEY",
+                        "RWD_API_URL"
+                    ]
+                }
+            ],
             "transform-object-rest-spread",
             "transform-react-jsx-source"
         ]

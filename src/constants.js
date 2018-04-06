@@ -23,3 +23,19 @@ export const jobRequestTypes = {
     terrain: 'terrain',
     streams: 'streams',
 };
+
+export const initialMapRegion = {
+    latitude: 39.961524,
+    longitude: -75.154567,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+};
+
+export const polygonZoomPadding = {
+    top: 20,
+    right: 20,
+    bottom: 20,
+    left: 20,
+};
+
+export const watershedFillColor = 'rgba(0, 0, 255, 0.2)';

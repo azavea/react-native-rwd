@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { func, object } from 'prop-types';
-import { View } from 'react-native';
+import { bool, func, object } from 'prop-types';
+import { Vibration, View } from 'react-native';
 import { MapView } from 'expo';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -91,9 +91,16 @@ class Map extends Component {
     }) {
         const {
             dispatch,
+            fetching,
         } = this.props;
 
+        if (fetching) {
+            return null;
+        }
+
         dispatch(setMarkerPosition(coordinate));
+
+        Vibration.vibrate([400]);
 
         return this.props.dispatch(fetchWatershed({
             lat: coordinate.latitude,
@@ -157,12 +164,14 @@ class Map extends Component {
 
 Map.defaultProps = {
     dispatch() {},
+    fetching: false,
     markerPosition: null,
     watershed: null,
 };
 
 Map.propTypes = {
     dispatch: func,
+    fetching: bool,
     markerPosition: object, // eslint-disable-line
     watershed: object, // eslint-disable-line
 };
@@ -174,11 +183,13 @@ function mapStateToProps({
     data: {
         watershed: {
             data,
+            fetching,
         },
     },
 }) {
     return {
         markerPosition,
+        fetching,
         watershed: data ? data.watershed : null,
     };
 }

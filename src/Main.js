@@ -13,6 +13,7 @@ import Analysis from './components/Analysis';
 function Main({
     analysisViewVisible,
     dispatch,
+    fetching,
 }) {
     const closeAnalysisButton = analysisViewVisible ? ({
         icon: 'close',
@@ -27,6 +28,7 @@ function Main({
             <Header
                 statusBarProps={{
                     barStyle: 'light-content',
+                    networkActivityIndicatorVisible: fetching,
                 }}
                 leftComponent={closeAnalysisButton}
                 centerComponent={{
@@ -44,20 +46,50 @@ function Main({
 Main.defaultProps = {
     analysisViewVisible: false,
     dispatch() {},
+    fetching: false,
 };
 
 Main.propTypes = {
     analysisViewVisible: bool,
     dispatch: func,
+    fetching: bool,
 };
 
 function mapStateToProps({
+    data: {
+        watershed: {
+            fetching: fetchingWatershed,
+        },
+        land: {
+            fetching: fetchingLand,
+        },
+        soil: {
+            fetching: fetchingSoil,
+        },
+        terrain: {
+            fetching: fetchingTerrain,
+        },
+        climate: {
+            fetching: fetchingClimate,
+        },
+        streams: {
+            fetching: fetchingStreams,
+        },
+    },
     ui: {
         analysisViewVisible,
     },
 }) {
     return {
         analysisViewVisible,
+        fetching: [
+            fetchingWatershed,
+            fetchingLand,
+            fetchingSoil,
+            fetchingTerrain,
+            fetchingClimate,
+            fetchingStreams,
+        ].some(Boolean),
     };
 }
 

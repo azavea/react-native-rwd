@@ -33,6 +33,12 @@ export RWD_API_URL=bar
 rake server
 ```
 
+## Run on iOS Simulator
+
+```sh
+rake ios
+```
+
 ## Testing
 
 ```sh

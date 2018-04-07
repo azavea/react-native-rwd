@@ -23,3 +23,9 @@ task :server do
   puts "Running expo and eslint ->"
   system("npm start")
 end
+
+desc "Run project on iOS simulator"
+task :ios do
+  puts "Starting app on iOS simulator ->"
+  system("exp ios")
+end

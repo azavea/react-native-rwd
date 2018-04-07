@@ -17,6 +17,7 @@ import {
     START_FETCH_STREAMS,
     FAIL_FETCH_STREAMS,
     COMPLETE_FETCH_STREAMS,
+    CLEAR_SHAPE,
 } from './actions.data';
 
 const initialState = {
@@ -54,6 +55,8 @@ const initialState = {
 
 export default function dataReducer(state = initialState, { type, payload }) {
     switch (type) {
+        case CLEAR_SHAPE:
+            return initialState;
         case START_FETCH_WATERSHED:
             return {
                 ...state,

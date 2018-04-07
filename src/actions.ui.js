@@ -1,5 +1,7 @@
 export const SET_MARKER_POSITION = 'SET_MARKER_POSITION';
 export const CLEAR_MARKER_POSITION = 'CLEAR_MARKER_POSITION';
+export const SHOW_ANALYSIS_VIEW = 'SHOW_ANALYSIS_VIEW';
+export const HIDE_ANALYSIS_VIEW = 'HIDE_ANALYSIS_VIEW';
 
 export function setMarkerPosition(payload) {
     return {
@@ -11,5 +13,17 @@ export function setMarkerPosition(payload) {
 export function clearMarkerPosition() {
     return {
         type: CLEAR_MARKER_POSITION,
+    };
+}
+
+export function showAnalysisView() {
+    return {
+        type: SHOW_ANALYSIS_VIEW,
+    };
+}
+
+export function hideAnalysisView() {
+    return {
+        type: HIDE_ANALYSIS_VIEW,
     };
 }

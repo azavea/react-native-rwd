@@ -1,12 +1,6 @@
 import React from 'react';
-import { func } from 'prop-types';
-import { View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-
-import {
-    hideAnalysisView,
-} from '../actions.ui';
 
 const styles = {
     container: {
@@ -14,26 +8,19 @@ const styles = {
     },
 };
 
-function Analysis({
-    dispatch,
-}) {
+function Analysis() {
     return (
         <View style={styles.container}>
-            <Button
-                onPress={() => dispatch(hideAnalysisView())}
-                title="Dismiss"
-            />
+            <Text>
+                Analyze tabs
+            </Text>
         </View>
     );
 }
 
-Analysis.defaultProps = {
-    dispatch() {},
-};
+Analysis.defaultProps = {};
 
-Analysis.propTypes = {
-    dispatch: func,
-};
+Analysis.propTypes = {};
 
 function mapStateToProps() {
     return {};

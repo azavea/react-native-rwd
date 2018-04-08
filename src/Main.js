@@ -17,6 +17,9 @@ import {
 import Map from './components/Map';
 import Analysis from './components/Analysis';
 
+const headerButtonColor = '#fff';
+const headerButtonPressColor = 'transparent';
+
 function Main({
     analysisViewVisible,
     dispatch,
@@ -28,7 +31,8 @@ function Main({
             return {
                 icon: 'map',
                 onPress: () => dispatch(hideAnalysisView()),
-                color: '#fff',
+                color: headerButtonColor,
+                underlayColor: headerButtonPressColor,
             };
         }
 
@@ -36,7 +40,8 @@ function Main({
             return {
                 icon: 'assessment',
                 onPress: () => dispatch(showAnalysisView()),
-                color: '#fff',
+                color: headerButtonColor,
+                underlayColor: headerButtonPressColor,
             };
         }
 
@@ -44,25 +49,27 @@ function Main({
     })();
 
     const rightHeaderComponent = (() => {
-        if (analysisViewVisible || fetching) {
+        if (analysisViewVisible) {
             return null;
         }
 
-        if (watershedData) {
+        if (watershedData || fetching) {
             return {
                 icon: 'close',
                 onPress: () => {
                     dispatch(clearShape());
                     dispatch(clearMarkerPosition());
                 },
-                color: '#fff',
+                color: headerButtonColor,
+                underlayColor: headerButtonPressColor,
             };
         }
 
         return {
             icon: 'near-me',
             onPress: () => dispatch(fetchUserLocationForWatershed()),
-            color: '#fff',
+            color: headerButtonColor,
+            underlayColor: headerButtonPressColor,
         };
     })();
 
@@ -79,7 +86,7 @@ function Main({
                 centerComponent={{
                     text: 'RWD',
                     style: {
-                        color: '#fff',
+                        color: headerButtonColor,
                     },
                 }}
                 rightComponent={rightHeaderComponent}

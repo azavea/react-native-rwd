@@ -5,7 +5,13 @@ import { Header } from 'react-native-elements';
 
 import {
     hideAnalysisView,
+    showAnalysisView,
+    clearMarkerPosition,
 } from './actions.ui';
+
+import {
+    clearShape,
+} from './actions.data';
 
 import Map from './components/Map';
 import Analysis from './components/Analysis';
@@ -14,12 +20,50 @@ function Main({
     analysisViewVisible,
     dispatch,
     fetching,
+    watershedData,
 }) {
-    const closeAnalysisButton = analysisViewVisible ? ({
-        icon: 'close',
-        onPress: () => dispatch(hideAnalysisView()),
-        color: '#fff',
-    }) : null;
+    const leftHeaderComponent = (() => {
+        if (analysisViewVisible) {
+            return {
+                icon: 'map',
+                onPress: () => dispatch(hideAnalysisView()),
+                color: '#fff',
+            };
+        }
+
+        if (watershedData) {
+            return {
+                icon: 'assessment',
+                onPress: () => dispatch(showAnalysisView()),
+                color: '#fff',
+            };
+        }
+
+        return null;
+    })();
+
+    const rightHeaderComponent = (() => {
+        if (analysisViewVisible || fetching) {
+            return null;
+        }
+
+        if (watershedData) {
+            return {
+                icon: 'close',
+                onPress: () => {
+                    dispatch(clearShape());
+                    dispatch(clearMarkerPosition());
+                },
+                color: '#fff',
+            };
+        }
+
+        return {
+            icon: 'near-me',
+            onPress: () => { console.log('locate me pressed'); },
+            color: '#fff',
+        };
+    })();
 
     const insetComponent = analysisViewVisible ? <Analysis /> : <Map />;
 
@@ -30,13 +74,14 @@ function Main({
                     barStyle: 'light-content',
                     networkActivityIndicatorVisible: fetching,
                 }}
-                leftComponent={closeAnalysisButton}
+                leftComponent={leftHeaderComponent}
                 centerComponent={{
                     text: 'RWD',
                     style: {
                         color: '#fff',
                     },
                 }}
+                rightComponent={rightHeaderComponent}
             />
             {insetComponent}
         </Fragment>
@@ -47,18 +92,21 @@ Main.defaultProps = {
     analysisViewVisible: false,
     dispatch() {},
     fetching: false,
+    watershedData: false,
 };
 
 Main.propTypes = {
     analysisViewVisible: bool,
     dispatch: func,
     fetching: bool,
+    watershedData: bool,
 };
 
 function mapStateToProps({
     data: {
         watershed: {
             fetching: fetchingWatershed,
+            data,
         },
         land: {
             fetching: fetchingLand,
@@ -82,6 +130,7 @@ function mapStateToProps({
 }) {
     return {
         analysisViewVisible,
+        watershedData: !!data,
         fetching: [
             fetchingWatershed,
             fetchingLand,

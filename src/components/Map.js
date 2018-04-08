@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { bool, func, object } from 'prop-types';
-import { Vibration, View } from 'react-native';
+import { Vibration } from 'react-native';
 import { MapView } from 'expo';
-import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import {
     fetchWatershed,
-    clearShape,
 } from '../actions.data';
 
 import {
     setMarkerPosition,
-    showAnalysisView,
 } from '../actions.ui';
 
 import {
@@ -24,26 +21,8 @@ import {
 import mapPolygonToLatLngs from '../utils';
 
 const styles = {
-    container: {
-        flex: 1,
-    },
     map: {
-        height: '100%',
-        width: '100%',
-    },
-    buttonContainer: {
-        position: 'absolute',
-        bottom: 25,
-        width: '100%',
-        flexDirection: 'row',
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        backgroundColor: 'transparent',
-    },
-    button: {
-        backgroundColor: 'purple',
-        borderRadius: 25,
     },
 };
 
@@ -131,33 +110,16 @@ class Map extends Component {
                 coordinates={mapPolygonToLatLngs(watershed.geometry.coordinates)}
             />) : null;
 
-        const analyzeButtons = watershed ? (
-            <View style={styles.buttonContainer}>
-                <Button
-                    buttonStyle={styles.button}
-                    onPress={() => dispatch(showAnalysisView())}
-                    title="Analyze"
-                />
-                <Button
-                    buttonStyle={styles.button}
-                    onPress={() => dispatch(clearShape())}
-                    title="Clear"
-                />
-            </View>) : null;
-
         return (
-            <View style={styles.container}>
-                <MapView
-                    ref={(m) => { this.mapRef = m; }}
-                    style={styles.map}
-                    initialRegion={initialMapRegion}
-                    onLongPress={handleLongPress}
-                >
-                    {marker}
-                    {watershedShape}
-                </MapView>
-                {analyzeButtons}
-            </View>
+            <MapView
+                ref={(m) => { this.mapRef = m; }}
+                style={styles.map}
+                initialRegion={initialMapRegion}
+                onLongPress={handleLongPress}
+            >
+                {marker}
+                {watershedShape}
+            </MapView>
         );
     }
 }

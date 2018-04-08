@@ -1,5 +1,5 @@
 import { Location, Permissions } from 'expo';
-import axios from 'axios';
+import axios, { CancelToken } from 'axios';
 
 import {
     rwdAPIkey,
@@ -18,6 +18,12 @@ import {
 import {
     setMarkerPosition,
 } from './actions.ui';
+
+const axiosOptions = {
+    headers: {
+        Authorization: rwdAPIkey,
+    },
+};
 
 export const START_FETCH_WATERSHED = 'START_FETCH_WATERSHED';
 export const FAIL_FETCH_WATERSHED = 'FAIL_FETCH_WATERSHED';
@@ -45,9 +51,82 @@ export const COMPLETE_FETCH_STREAMS = 'COMPLETE_FETCH_STREAMS';
 
 export const CLEAR_SHAPE = 'CLEAR_SHAPE';
 
-const headers = {
-    Authorization: rwdAPIkey,
-};
+
+let cancelWatershedRequest = null;
+let cancelSoilRequest = null;
+let cancelLandRequest = null;
+let cancelClimateRequest = null;
+let cancelStreamsRequest = null;
+let cancelTerrainRequest = null;
+
+function maybeCancelPriorRequest(type) {
+    switch (type) {
+        case jobRequestTypes.watershed:
+            if (!cancelWatershedRequest) {
+                return null;
+            }
+
+            cancelWatershedRequest('Canceling watershed request');
+            cancelWatershedRequest = null;
+
+            return null;
+        case jobRequestTypes.soil:
+            if (!cancelSoilRequest) {
+                return null;
+            }
+
+            cancelSoilRequest('Canceling soil request');
+            cancelSoilRequest = null;
+
+            return null;
+        case jobRequestTypes.land:
+            if (!cancelLandRequest) {
+                return null;
+            }
+
+            cancelLandRequest('Canceling land request');
+            cancelLandRequest = null;
+
+            return null;
+        case jobRequestTypes.climate:
+            if (!cancelClimateRequest) {
+                return null;
+            }
+
+            cancelClimateRequest('Canceling climate request');
+            cancelClimateRequest = null;
+
+            return null;
+        case jobRequestTypes.streams:
+            if (!cancelStreamsRequest) {
+                return null;
+            }
+
+            cancelStreamsRequest('Canceling streams request');
+            cancelStreamsRequest = null;
+            return null;
+        case jobRequestTypes.terrain:
+            if (!cancelTerrainRequest) {
+                return null;
+            }
+
+            cancelTerrainRequest('Canceling terrain request');
+            cancelTerrainRequest = null;
+
+            return null;
+        default:
+            throw new Error('invalid request type');
+    }
+}
+
+function maybeCancelAllPriorRequests() {
+    maybeCancelPriorRequest(jobRequestTypes.watershed);
+    maybeCancelPriorRequest(jobRequestTypes.soil);
+    maybeCancelPriorRequest(jobRequestTypes.land);
+    maybeCancelPriorRequest(jobRequestTypes.climate);
+    maybeCancelPriorRequest(jobRequestTypes.streams);
+    maybeCancelPriorRequest(jobRequestTypes.terrain);
+}
 
 function startFetchWatershed() {
     return {
@@ -173,7 +252,7 @@ function pollJobUrl(jobId, jobType, count = 1) {
             .get(
                 makeJobsUrl(jobId),
                 {
-                    headers,
+                    ...axiosOptions,
                 },
             )
             .then(({ data }) => {
@@ -223,6 +302,7 @@ function pollJobUrl(jobId, jobType, count = 1) {
 
 export function fetchWatershed({ lat, lng }) {
     return (dispatch) => {
+        maybeCancelAllPriorRequests();
         dispatch(startFetchWatershed());
 
         return axios
@@ -237,7 +317,8 @@ export function fetchWatershed({ lat, lng }) {
                     dataSource: 'nhd',
                 },
                 {
-                    headers,
+                    ...axiosOptions,
+                    cancelToken: new CancelToken((c) => { cancelWatershedRequest = c; }),
                 },
             )
             .then(({ data: { job } }) =>
@@ -248,6 +329,7 @@ export function fetchWatershed({ lat, lng }) {
 
 export function fetchSoil() {
     return (dispatch, getState) => {
+        maybeCancelPriorRequest(jobRequestTypes.soil);
         dispatch(startFetchSoil());
 
         const {
@@ -267,7 +349,8 @@ export function fetchSoil() {
                     soilURL,
                     watershed,
                     {
-                        headers,
+                        ...axiosOptions,
+                        cancelToken: new CancelToken((c) => { cancelSoilRequest = c; }),
                     },
                 )
                 .then(({ data: { job } }) =>
@@ -278,6 +361,7 @@ export function fetchSoil() {
 
 export function fetchLand() {
     return (dispatch, getState) => {
+        maybeCancelPriorRequest(jobRequestTypes.land);
         dispatch(startFetchLand());
 
         const {
@@ -297,7 +381,8 @@ export function fetchLand() {
                     landURL,
                     watershed,
                     {
-                        headers,
+                        ...axiosOptions,
+                        cancelToken: new CancelToken((c) => { cancelLandRequest = c; }),
                     },
                 )
                 .then(({ data: { job } }) =>
@@ -308,6 +393,7 @@ export function fetchLand() {
 
 export function fetchClimate() {
     return (dispatch, getState) => {
+        maybeCancelPriorRequest(jobRequestTypes.climate);
         dispatch(startFetchClimate());
 
         const {
@@ -327,7 +413,8 @@ export function fetchClimate() {
                     climateURL,
                     watershed,
                     {
-                        headers,
+                        ...axiosOptions,
+                        cancelToken: new CancelToken((c) => { cancelClimateRequest = c; }),
                     },
                 )
                 .then(({ data: { job } }) =>
@@ -338,6 +425,7 @@ export function fetchClimate() {
 
 export function fetchTerrain() {
     return (dispatch, getState) => {
+        maybeCancelPriorRequest(jobRequestTypes.terrain);
         dispatch(startFetchTerrain());
 
         const {
@@ -357,7 +445,8 @@ export function fetchTerrain() {
                     terrainURL,
                     watershed,
                     {
-                        headers,
+                        ...axiosOptions,
+                        cancelToken: new CancelToken((c) => { cancelTerrainRequest = c; }),
                     },
                 )
                 .then(({ data: { job } }) =>
@@ -368,6 +457,7 @@ export function fetchTerrain() {
 
 export function fetchStreams() {
     return (dispatch, getState) => {
+        maybeCancelPriorRequest(jobRequestTypes.streams);
         dispatch(startFetchStreams());
 
         const {
@@ -387,7 +477,8 @@ export function fetchStreams() {
                     streamsURL,
                     watershed,
                     {
-                        headers,
+                        ...axiosOptions,
+                        cancelToken: new CancelToken((c) => { cancelStreamsRequest = c; }),
                     },
                 )
                 .then(({ data: { job } }) =>
@@ -397,6 +488,8 @@ export function fetchStreams() {
 }
 
 export function clearShape() {
+    maybeCancelAllPriorRequests();
+
     return {
         type: CLEAR_SHAPE,
     };

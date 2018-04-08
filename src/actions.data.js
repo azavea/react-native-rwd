@@ -1,3 +1,4 @@
+import { Location, Permissions } from 'expo';
 import axios from 'axios';
 
 import {
@@ -13,6 +14,10 @@ import {
     jobStartedStatus,
     jobRequestTypes,
 } from './constants';
+
+import {
+    setMarkerPosition,
+} from './actions.ui';
 
 export const START_FETCH_WATERSHED = 'START_FETCH_WATERSHED';
 export const FAIL_FETCH_WATERSHED = 'FAIL_FETCH_WATERSHED';
@@ -395,4 +400,26 @@ export function clearShape() {
     return {
         type: CLEAR_SHAPE,
     };
+}
+
+// TODO use async/await
+export function fetchUserLocationForWatershed() {
+    return dispatch =>
+        Permissions
+            .askAsync(Permissions.LOCATION)
+            .then(() => Location
+                .getCurrentPositionAsync()
+                .then(({
+                    coords: {
+                        latitude,
+                        longitude,
+                    },
+                }) => {
+                    dispatch(setMarkerPosition({ latitude, longitude }));
+                    return dispatch(fetchWatershed({
+                        lat: latitude,
+                        lng: longitude,
+                    }));
+                }))
+            .catch(() => dispatch(failFetchWatershed()));
 }

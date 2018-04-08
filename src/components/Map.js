@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { bool, func, object } from 'prop-types';
-import { Vibration } from 'react-native';
 import { MapView } from 'expo';
 import { connect } from 'react-redux';
 
@@ -79,8 +78,6 @@ class Map extends Component {
 
         dispatch(setMarkerPosition(coordinate));
 
-        Vibration.vibrate([400]);
-
         return this.props.dispatch(fetchWatershed({
             lat: coordinate.latitude,
             lng: coordinate.longitude,
@@ -91,7 +88,6 @@ class Map extends Component {
         const {
             handleLongPress,
             props: {
-                dispatch,
                 markerPosition,
                 watershed,
             },

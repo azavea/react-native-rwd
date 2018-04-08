@@ -11,6 +11,7 @@ import {
 
 import {
     clearShape,
+    fetchUserLocationForWatershed,
 } from './actions.data';
 
 import Map from './components/Map';
@@ -60,7 +61,7 @@ function Main({
 
         return {
             icon: 'near-me',
-            onPress: () => { console.log('locate me pressed'); },
+            onPress: () => dispatch(fetchUserLocationForWatershed()),
             color: '#fff',
         };
     })();

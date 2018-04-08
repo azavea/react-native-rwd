@@ -1,9 +1,13 @@
+import { Vibration } from 'react-native';
+
 export const SET_MARKER_POSITION = 'SET_MARKER_POSITION';
 export const CLEAR_MARKER_POSITION = 'CLEAR_MARKER_POSITION';
 export const SHOW_ANALYSIS_VIEW = 'SHOW_ANALYSIS_VIEW';
 export const HIDE_ANALYSIS_VIEW = 'HIDE_ANALYSIS_VIEW';
 
 export function setMarkerPosition(payload) {
+    Vibration.vibrate([400]);
+
     return {
         type: SET_MARKER_POSITION,
         payload,

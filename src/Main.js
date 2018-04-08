@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { bool, func } from 'prop-types';
+import { bool, func, string } from 'prop-types';
 import { connect } from 'react-redux';
 import { Header } from 'react-native-elements';
 
@@ -22,6 +22,7 @@ const headerButtonPressColor = 'transparent';
 
 function Main({
     analysisViewVisible,
+    visibleAnalysisView,
     dispatch,
     fetching,
     watershedData,
@@ -75,6 +76,13 @@ function Main({
 
     const insetComponent = analysisViewVisible ? <Analysis /> : <Map />;
 
+    const headerText = analysisViewVisible ?
+        visibleAnalysisView
+            .slice(0, 1)
+            .toUpperCase()
+            .concat(visibleAnalysisView.slice(1)) :
+        'RWD';
+
     return (
         <Fragment>
             <Header
@@ -84,7 +92,7 @@ function Main({
                 }}
                 leftComponent={leftHeaderComponent}
                 centerComponent={{
-                    text: 'RWD',
+                    text: headerText,
                     style: {
                         color: headerButtonColor,
                     },
@@ -98,6 +106,7 @@ function Main({
 
 Main.defaultProps = {
     analysisViewVisible: false,
+    visibleAnalysisView: '',
     dispatch() {},
     fetching: false,
     watershedData: false,
@@ -105,6 +114,7 @@ Main.defaultProps = {
 
 Main.propTypes = {
     analysisViewVisible: bool,
+    visibleAnalysisView: string,
     dispatch: func,
     fetching: bool,
     watershedData: bool,
@@ -134,10 +144,12 @@ function mapStateToProps({
     },
     ui: {
         analysisViewVisible,
+        visibleAnalysisView,
     },
 }) {
     return {
         analysisViewVisible,
+        visibleAnalysisView,
         watershedData: !!data,
         fetching: [
             fetchingWatershed,

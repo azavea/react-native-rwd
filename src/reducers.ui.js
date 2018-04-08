@@ -3,15 +3,21 @@ import {
     CLEAR_MARKER_POSITION,
     SHOW_ANALYSIS_VIEW,
     HIDE_ANALYSIS_VIEW,
+    CHANGE_VISIBLE_ANALYSIS_VIEW,
 } from './actions.ui';
 
 import {
     CLEAR_SHAPE,
 } from './actions.data';
 
+import {
+    jobRequestTypes,
+} from './constants';
+
 const initialState = {
     markerPosition: null,
     analysisViewVisible: false,
+    visibleAnalysisView: jobRequestTypes.watershed,
 };
 
 export default function ui(state = initialState, { type, payload }) {
@@ -37,6 +43,12 @@ export default function ui(state = initialState, { type, payload }) {
             return {
                 ...state,
                 analysisViewVisible: false,
+                visibleAnalysisView: initialState.visibleAnalysisView,
+            };
+        case CHANGE_VISIBLE_ANALYSIS_VIEW:
+            return {
+                ...state,
+                visibleAnalysisView: payload,
             };
         default:
             return state;

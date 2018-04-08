@@ -19,9 +19,12 @@ const styles = {
     slide: {
         flex: 1,
         backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    headerStyle: {
-        alignSelf: 'center',
+    loadingIndicatorStyle: {
+    },
+    dataDisplayStyle: {
     },
 };
 
@@ -64,27 +67,30 @@ class AnalysisSlide extends Component {
             data,
             fetching,
             error,
-            analysisType,
         } = this.props;
 
         const insetComponent = (() => {
             if (fetching) {
-                return <ActivityIndicator size="large" />;
+                return <ActivityIndicator size="small" />;
             }
 
             if (error) {
                 return (
-                    <Text>
-                        Error!
-                    </Text>
+                    <View style={styles.dataDisplayStyle}>
+                        <Text>
+                            Error!
+                        </Text>
+                    </View>
                 );
             }
 
             if (data) {
                 return (
-                    <Text>
-                        {JSON.stringify(data)}
-                    </Text>
+                    <View style={styles.dataDisplayStyle}>
+                        <Text>
+                            {JSON.stringify(data)}
+                        </Text>
+                    </View>
                 );
             }
 
@@ -93,10 +99,7 @@ class AnalysisSlide extends Component {
 
         return (
             <View style={styles.slide}>
-                <Text style={styles.headerStyle}>
-                    {analysisType}
-                    {insetComponent}
-                </Text>
+                {insetComponent}
             </View>
         );
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { func } from 'prop-types';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
@@ -6,6 +7,10 @@ import Swiper from 'react-native-swiper';
 import {
     jobRequestTypes,
 } from '../constants';
+
+import {
+    changeVisibleAnalysisView,
+} from '../actions.ui';
 
 import AnalysisSlide from './AnalysisSlide';
 
@@ -19,7 +24,9 @@ const styles = {
     },
 };
 
-function Analysis() {
+function Analysis({
+    dispatch,
+}) {
     const analysisSlides = Object
         .keys(jobRequestTypes)
         .map(analysisType => (
@@ -35,6 +42,7 @@ function Analysis() {
                 showsButtons
                 loadMinimal
                 loadMinimalSize={0}
+                onIndexChanged={index => dispatch(changeVisibleAnalysisView(index))}
             >
                 {analysisSlides}
             </Swiper>
@@ -42,9 +50,13 @@ function Analysis() {
     );
 }
 
-Analysis.defaultProps = {};
+Analysis.defaultProps = {
+    dispatch() {},
+};
 
-Analysis.propTypes = {};
+Analysis.propTypes = {
+    dispatch: func,
+};
 
 function mapStateToProps() {
     return {};

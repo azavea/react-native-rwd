@@ -1,9 +1,14 @@
 import { Vibration } from 'react-native';
 
+import {
+    jobRequestTypes,
+} from './constants';
+
 export const SET_MARKER_POSITION = 'SET_MARKER_POSITION';
 export const CLEAR_MARKER_POSITION = 'CLEAR_MARKER_POSITION';
 export const SHOW_ANALYSIS_VIEW = 'SHOW_ANALYSIS_VIEW';
 export const HIDE_ANALYSIS_VIEW = 'HIDE_ANALYSIS_VIEW';
+export const CHANGE_VISIBLE_ANALYSIS_VIEW = 'CHANGE_VISIBLE_ANALYSIS_VIEW';
 
 export function setMarkerPosition(payload) {
     Vibration.vibrate([400]);
@@ -29,5 +34,12 @@ export function showAnalysisView() {
 export function hideAnalysisView() {
     return {
         type: HIDE_ANALYSIS_VIEW,
+    };
+}
+
+export function changeVisibleAnalysisView(index) {
+    return {
+        type: CHANGE_VISIBLE_ANALYSIS_VIEW,
+        payload: Object.values(jobRequestTypes)[index],
     };
 }

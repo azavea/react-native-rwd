@@ -15,6 +15,9 @@ import {
     jobRequestTypes,
 } from '../constants';
 
+import ClimateChart from './ClimateChart';
+import TerrainChart from './TerrainChart';
+
 const styles = {
     slide: {
         flex: 1,
@@ -22,10 +25,7 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
     },
-    loadingIndicatorStyle: {
-    },
-    dataDisplayStyle: {
-    },
+    loadingIndicatorStyle: {},
 };
 
 class AnalysisSlide extends Component {
@@ -67,6 +67,7 @@ class AnalysisSlide extends Component {
             data,
             fetching,
             error,
+            analysisType,
         } = this.props;
 
         const insetComponent = (() => {
@@ -85,13 +86,20 @@ class AnalysisSlide extends Component {
             }
 
             if (data) {
-                return (
-                    <View style={styles.dataDisplayStyle}>
-                        <Text>
-                            {JSON.stringify(data)}
-                        </Text>
-                    </View>
-                );
+                switch (analysisType) {
+                    case jobRequestTypes.climate:
+                        return <ClimateChart data={data} />;
+                    case jobRequestTypes.terrain:
+                        return <TerrainChart data={data} />;
+                    default:
+                        return (
+                            <View style={styles.dataDisplayStyle}>
+                                <Text>
+                                    {JSON.stringify(data)}
+                                </Text>
+                            </View>
+                        );
+                }
             }
 
             return null;

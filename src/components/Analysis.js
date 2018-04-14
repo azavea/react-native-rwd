@@ -39,7 +39,6 @@ function Analysis({
         <View style={styles.container}>
             <Swiper
                 style={{}}
-                showsButtons
                 loadMinimal
                 loadMinimalSize={0}
                 onIndexChanged={index => dispatch(changeVisibleAnalysisView(index))}

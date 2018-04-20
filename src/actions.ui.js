@@ -61,5 +61,5 @@ export function copyWatershedToClipboard() {
         return dispatch({
             type: COPY_WATERSHED_TO_CLIPBOARD,
         });
-    }
+    };
 }

@@ -4,9 +4,9 @@
 
 A research project to build a mapping application with React Native.
 
-<img src="watersheds.gif" alt="watersheds gif" height="500" />
+<img src="findwatershed.gif" alt="watersheds gif" height="500" />
 
-<img src="analysis.gif" alt="analysis gif" height="500" />
+<img src="analyzeWatershed.gif" alt="analysis gif" height="500" />
 
 ## Requirements
 

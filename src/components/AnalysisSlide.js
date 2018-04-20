@@ -17,6 +17,8 @@ import {
 
 import ClimateChart from './ClimateChart';
 import TerrainChart from './TerrainChart';
+import LandChart from './LandChart';
+import SoilChart from './SoilChart';
 
 const styles = {
     slide: {
@@ -91,6 +93,10 @@ class AnalysisSlide extends Component {
                         return <ClimateChart data={data} />;
                     case jobRequestTypes.terrain:
                         return <TerrainChart data={data} />;
+                    case jobRequestTypes.land:
+                        return <LandChart data={data} />;
+                    case jobRequestTypes.soil:
+                        return <SoilChart data={data} />;
                     default:
                         return (
                             <View style={styles.dataDisplayStyle}>

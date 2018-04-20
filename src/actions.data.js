@@ -51,7 +51,6 @@ export const COMPLETE_FETCH_STREAMS = 'COMPLETE_FETCH_STREAMS';
 
 export const CLEAR_SHAPE = 'CLEAR_SHAPE';
 
-
 let cancelWatershedRequest = null;
 let cancelSoilRequest = null;
 let cancelLandRequest = null;

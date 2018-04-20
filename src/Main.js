@@ -7,6 +7,7 @@ import {
     hideAnalysisView,
     showAnalysisView,
     clearMarkerPosition,
+    copyWatershedToClipboard,
 } from './actions.ui';
 
 import {
@@ -51,7 +52,12 @@ function Main({
 
     const rightHeaderComponent = (() => {
         if (analysisViewVisible) {
-            return null;
+            return {
+                icon: 'content-copy',
+                onPress: () => dispatch(copyWatershedToClipboard()),
+                color: headerButtonColor,
+                underlayColor: headerButtonPressColor,
+            };
         }
 
         if (watershedData || fetching) {

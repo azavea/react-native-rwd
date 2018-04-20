@@ -1,4 +1,4 @@
-import { Vibration } from 'react-native';
+import { Clipboard, Vibration } from 'react-native';
 
 import {
     jobRequestTypes,
@@ -9,6 +9,7 @@ export const CLEAR_MARKER_POSITION = 'CLEAR_MARKER_POSITION';
 export const SHOW_ANALYSIS_VIEW = 'SHOW_ANALYSIS_VIEW';
 export const HIDE_ANALYSIS_VIEW = 'HIDE_ANALYSIS_VIEW';
 export const CHANGE_VISIBLE_ANALYSIS_VIEW = 'CHANGE_VISIBLE_ANALYSIS_VIEW';
+export const COPY_WATERSHED_TO_CLIPBOARD = 'COPY_WATERSHED_TO_CLIPBOARD';
 
 export function setMarkerPosition(payload) {
     Vibration.vibrate([400]);
@@ -42,4 +43,23 @@ export function changeVisibleAnalysisView(index) {
         type: CHANGE_VISIBLE_ANALYSIS_VIEW,
         payload: Object.values(jobRequestTypes)[index],
     };
+}
+
+export function copyWatershedToClipboard() {
+    return (dispatch, getState) => {
+        const {
+            data: {
+                watershed: {
+                    data,
+                },
+            },
+        } = getState();
+
+        Clipboard
+            .setString(JSON.stringify(data));
+
+        return dispatch({
+            type: COPY_WATERSHED_TO_CLIPBOARD,
+        });
+    }
 }

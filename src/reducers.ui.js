@@ -17,7 +17,7 @@ import {
 const initialState = {
     markerPosition: null,
     analysisViewVisible: false,
-    visibleAnalysisView: jobRequestTypes.watershed,
+    visibleAnalysisView: jobRequestTypes.land,
 };
 
 export default function ui(state = initialState, { type, payload }) {

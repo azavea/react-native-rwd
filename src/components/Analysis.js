@@ -29,7 +29,6 @@ function Analysis({
 }) {
     const analysisSlides = Object
         .keys(jobRequestTypes)
-        .filter(analysisType => analysisType !== jobRequestTypes.watershed)
         .map(analysisType => (
             <AnalysisSlide
                 key={analysisType}

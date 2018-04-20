@@ -16,7 +16,6 @@ export const pollingInterval = 2000;
 export const jobStartedStatus = 'started';
 
 export const jobRequestTypes = {
-    watershed: 'watershed',
     land: 'land',
     soil: 'soil',
     climate: 'climate',
